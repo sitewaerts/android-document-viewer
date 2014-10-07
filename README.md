@@ -3,7 +3,7 @@ Sitewaerts Document Viewer App for Android
 
 Free Android Document Viewer App required by https://github.com/sitewaerts/cordova-plugin-document-viewer.
 
-**This project is currently under development an not yet ready to use.**
+**This project is currently under development and not yet ready to use.**
 
 ## Requirements ##
 
