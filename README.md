@@ -33,7 +33,11 @@ to GNU AGPL V3.
 
 ## Credits ##
 
-This App is based on muPDF (http://www.mupdf.com/ and git://git.ghostscript.com/mupdf.git).
+This App is based on muPDF:
+
+http://www.mupdf.com/
+
+http://git.ghostscript.com/?p=mupdf.git;a=summary
 
 
 ## Contact ##
