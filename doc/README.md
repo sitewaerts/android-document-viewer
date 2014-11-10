@@ -1,6 +1,6 @@
 # Allgemein #
 
-Die Viewer App wird von sitewaerts kostenlos im Google Play Appstore bereitgestellt (Name z.B. „sitewaertsPDF“).
+Die Viewer App wird von sitewaerts kostenlos im Google Play Appstore bereitgestellt (Name z.B. „sitewaertsPDF“ oder "cleverDox Viewer").
 
 Umsetzung auf Basis MUPDF oder evtl. passender darauf basierender Software.
 
