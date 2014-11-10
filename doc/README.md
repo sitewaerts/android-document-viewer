@@ -3,9 +3,8 @@
 Die Viewer App wird von sitewaerts kostenlos im Google Play Appstore bereitgestellt (Name z.B. „sitewaertsPDF“).
 
 Umsetzung auf Basis MUPDF oder evtl. passender darauf basierender Software.
-N
-avigation und Design nach Möglichkeit an o.g. iOS Plugin anpassen
 
+Navigation und Design nach Möglichkeit an iOS Plugin (https://github.com/sitewaerts/cordova-plugin-document-viewer) anpassen
 
 
 # API #
@@ -24,7 +23,7 @@ Aufruf aus anderen Apps erfolgt wie folgt:
 * Category: CATEGORY_EMBED
 * Der Aufruf erfolgt über die Methode startActivityForResult, sodass eine Benachrichtigung erfolgen kann, wenn der Viewer wieder geschlossen wird.
 
-Versucht ein Anwender die App direkt zu starten wird lediglich eine Meldung angezeigt.
+Versucht ein Anwender die App direkt zu starten wird lediglich eine Meldung/InfoScreen angezeigt. Schön wäre es, wenn dies einfach als HTML/CSS7IMG hinterlegt werden könnte.
 
 
 #Anpassungen#
@@ -43,6 +42,11 @@ Vgl. dazu Javascript API des Plugins
 
 * Druck
 * Suche
+
+Wie werden Laufzeitkonfigurationean per Intent übergeben?
+* Falls notwendig, könnte vom Java-Teil des Plugins einen Konfigurationsdatei angelegt werden.
+* oders die Parameter werden an die PDF-File-Url per ? angehangen
+
 
 ##Dokument-View##
 
@@ -72,7 +76,7 @@ Slider-Navigation unten
 
 Der Button (…) oben links startet aus dem Dokument-View den (Vollbild-) Navigations-View. Über den Android- „Zurück“ Button geht’s zurück zum Dokument-View.
 
-Im Navigationsview wird vorerst nur die Darstellung „Inhaltbaum“ unterstützt. Die bereits in MuPDF enthaltene Ansicht sollte etwas optimiert werden, da sie sehr hässlich ist.
+Im Navigationsview wird vorerst nur die Darstellung „Inhaltsbaum“ unterstützt. Die bereits in MuPDF enthaltene Ansicht sollte etwas optimiert werden, da sie sehr hässlich ist.
 
 
 ###!! Ausbaustufe !!###
