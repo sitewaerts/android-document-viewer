@@ -1,9 +1,11 @@
-Sitewaerts Document Viewer App for Android
+cleverdox Viewer for Android
 ============================
 
 Free Android Document Viewer App required by https://github.com/sitewaerts/cordova-plugin-document-viewer.
 
 **This project is currently under development and not yet ready to use.**
+
+The App is available at Google play: https://play.google.com/store/apps/details?id=de.sitewaerts.cleverdox.viewer
 
 ## Requirements ##
 
