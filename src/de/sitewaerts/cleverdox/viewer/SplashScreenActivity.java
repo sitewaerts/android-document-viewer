@@ -1,9 +1,14 @@
-package de.sitewaerts.android.documentviewer;
+package de.sitewaerts.cleverdox.viewer;
 
 import android.app.Activity;
 import android.os.Bundle;
 
-public final class DocumentViewerActivity
+/**
+ * this activity is launched if the app is NOT started from cordova/phonegap
+ * @author Philipp Bohnenstengel (raumobil GmbH)
+ *
+ */
+public final class SplashScreenActivity
         extends Activity
 {
     /**
@@ -13,6 +18,6 @@ public final class DocumentViewerActivity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.splash_screen);
     }
 }
