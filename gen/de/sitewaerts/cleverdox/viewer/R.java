@@ -175,5 +175,8 @@ public final class R {
     }
     public static final class style {
         public static final int AppBaseTheme=0x7f070000;
+        /**          <item name="android:actionBarStyle">@style/MyActionBar</item> 
+         */
+        public static final int SitewaertsCleverdoxViewerTheme=0x7f070001;
     }
 }

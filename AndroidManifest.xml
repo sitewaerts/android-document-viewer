@@ -15,8 +15,7 @@
             </intent-filter>
         </activity>
         <activity android:name="DocumentViewerActivity"
-            	  android:theme="@style/AppBaseTheme"
-                  android:label="@string/app_name">
+            	  android:theme="@style/SitewaertsCleverdoxViewerTheme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.EMBED"/>

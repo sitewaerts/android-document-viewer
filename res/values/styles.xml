@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+	<style name="SitewaertsCleverdoxViewerTheme" parent="android:Theme.Holo.Light">
+	    <item name="android:windowActionBarOverlay">true</item>
+<!--         <item name="android:actionBarStyle">@style/MyActionBar</item> -->
+	</style>
+</resources>
