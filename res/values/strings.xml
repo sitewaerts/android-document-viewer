@@ -2,4 +2,11 @@
 <resources>
     <string name="app_name">sitewaerts PDF Viewer</string>
     <string name="splash_screen_message">This app is not intended to work on its own but to be invoked from cordova/phonegap.</string>
+    
+    <string name="action_navigation_view">Navigation</string>
+    <string name="action_open_with">Open with</string>
+    <string name="action_print">Print</string>
+    <string name="action_email">Email</string>
+    <string name="action_bookmark">Bookmark</string>
+    <string name="action_search">Search</string>
 </resources>

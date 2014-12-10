@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_navigation_view"
+          android:icon="@drawable/ic_action_view_as_list"
+          android:title="@string/action_navigation_view"
+          android:showAsAction="always"/>
+    <item android:id="@+id/action_open_with"
+          android:icon="@drawable/ic_action_share"
+          android:title="@string/action_open_with"
+          android:showAsAction="always"/>
+    <item android:id="@+id/action_print"
+          android:icon="@drawable/ic_action_help"
+          android:title="@string/action_print"
+          android:showAsAction="always"/>
+    <item android:id="@+id/action_email"
+          android:icon="@drawable/ic_action_email"
+          android:title="@string/action_email"
+          android:showAsAction="always"/>
+    <item android:id="@+id/action_bookmark"
+          android:icon="@drawable/ic_action_not_important"
+          android:title="@string/action_bookmark"
+          android:showAsAction="always"/>
+    <item android:id="@+id/action_search"
+          android:icon="@drawable/ic_action_search"
+          android:title="@string/action_search"
+          android:showAsAction="always"/>
+</menu>
