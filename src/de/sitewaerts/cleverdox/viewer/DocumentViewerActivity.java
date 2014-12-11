@@ -11,6 +11,7 @@ import com.artifex.mupdfdemo.MuPDFView;
 import com.artifex.mupdfdemo.OutlineActivity;
 import com.artifex.mupdfdemo.OutlineActivityData;
 import com.artifex.mupdfdemo.OutlineItem;
+//import com.artifex.mupdfdemo.R;
 import com.artifex.mupdfdemo.SearchTask;
 import com.artifex.mupdfdemo.SearchTaskResult;
 //import com.artifex.mupdfdemo.MuPDFActivity.TopBarMode;
@@ -36,6 +37,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * currently this is just a dummy that is invoked from cordova/phonegap
@@ -348,11 +350,13 @@ public class DocumentViewerActivity
         //hide actions based on cordova options
         MenuItem tmp;
         //TODO remove once thumbnails are implemented
-		if (!getCore().hasOutline()) { //XXX potential nullpointer
-			tmp = menu.findItem(R.id.action_navigation_view);
-			if (tmp != null) {
-				tmp.setEnabled(false);
-			}
+        if (getCore() != null) {
+        	if (!getCore().hasOutline()) {
+        		tmp = menu.findItem(R.id.action_navigation_view);
+        		if (tmp != null) {
+        			tmp.setEnabled(false);
+        		}
+        	}
 		}
         if (!openWithEnabled) {
         	tmp = menu.findItem(R.id.action_open_with);
@@ -406,19 +410,68 @@ public class DocumentViewerActivity
 	    		finish();
 	    		return true;
 	    	case R.id.action_navigation_view:
-				OutlineItem outline[] = getCore().getOutline(); //XXX potential nullpointer
-				if (outline != null) {
-					OutlineActivityData.get().items = outline;
-					Intent intent = new Intent(DocumentViewerActivity.this, NavigationViewActivity.class);
-					//add relevant cordova options
-					intent.putExtra("closeLabel", navigationViewCloseLabel);
-					intent.putExtra("bookmarksEnabled", bookmarksEnabled);
-					startActivityForResult(intent, getOUTLINEREQUEST());
-				}
+	    		if (getCore() != null) {
+	    			OutlineItem outline[] = getCore().getOutline();
+	    			if (outline != null) {
+	    				OutlineActivityData.get().items = outline;
+	    				Intent intent = new Intent(DocumentViewerActivity.this, NavigationViewActivity.class);
+	    				//add relevant cordova options
+	    				intent.putExtra("closeLabel", navigationViewCloseLabel);
+	    				intent.putExtra("bookmarksEnabled", bookmarksEnabled);
+	    				startActivityForResult(intent, getOUTLINEREQUEST());
+	    			}
+	    		}
 	    		return true;
+	    	case R.id.action_open_with:
+	    		return false;
+	    	case R.id.action_print:
+	    		if (!getCore().fileFormat().startsWith("PDF")) {
+	    			showInfo(getString(R.string.format_currently_not_supported));
+	    			return true;
+	    		}
+
+	    		Intent myIntent = getIntent();
+	    		Uri docUri = myIntent != null ? myIntent.getData() : null;
+
+	    		if (docUri == null) {
+	    			showInfo(getString(R.string.print_failed));
+	    		}
+
+	    		if (docUri.getScheme() == null)
+	    			docUri = Uri.parse("file://"+docUri.toString());
+
+	    		Intent printIntent = new Intent(this, PrintActivity.class);
+	    		printIntent.setDataAndType(docUri, "aplication/pdf");
+	    		printIntent.putExtra("title", getMFileName());
+	    		printIntent.putExtra("closeLabel", navigationViewCloseLabel);
+	    		startActivityForResult(printIntent, getPRINTREQUEST());
+	    		return true;
+	    	case R.id.action_email:
+	    		return false;
+	    	case R.id.action_bookmark:
+	    		return false;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == getPRINTREQUEST()) {
+			if (resultCode == RESULT_CANCELED) {
+				showInfo(getString(R.string.print_failed));
+			}
+			return; //prevent call to super
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+	
+	private void showInfo(String message) {
+		Context context = getApplicationContext();
+		int duration = Toast.LENGTH_SHORT;
+
+		Toast toast = Toast.makeText(context, message, duration);
+		toast.show();
 	}
     
     /**
@@ -487,5 +540,9 @@ public class DocumentViewerActivity
 
     public int getOUTLINEREQUEST() {
     	return (Integer) getPrivateFieldOfSuper("OUTLINE_REQUEST");
+    }
+    
+    public int getPRINTREQUEST() {
+    	return (Integer) getPrivateFieldOfSuper("PRINT_REQUEST");
     }
 }

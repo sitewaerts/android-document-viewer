@@ -3,8 +3,11 @@
           package="de.sitewaerts.cleverdox.viewer"
           android:versionCode="1"
           android:versionName="1.0">
+	<!-- write includes read and MuPDF has the ability to modify documents -->
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="21"/>
+	<!-- required for cloud print -->
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-sdk android:minSdkVersion="16" android:targetSdkVersion="21"/>
     <application android:label="@string/app_name"
                  android:icon="@drawable/ic_launcher">
         <activity android:name="SplashScreenActivity"
@@ -24,5 +27,8 @@
         <activity android:name="NavigationViewActivity"
             	  android:theme="@android:style/Theme.Holo.Light">
         </activity>
-	</application>
+        <activity android:name="PrintActivity"
+            	  android:theme="@android:style/Theme.Holo.Light">
+        </activity>
+   	</application>
 </manifest>
