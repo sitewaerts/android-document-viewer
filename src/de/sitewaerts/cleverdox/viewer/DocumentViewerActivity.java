@@ -338,19 +338,6 @@ public class DocumentViewerActivity
     }
     
     /**
-     * handle action bar menu events
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-    	switch (item.getItemId()) {
-    		case android.R.id.home:
-    			finish();
-    			return true;
-    	}
-    	return super.onOptionsItemSelected(item);
-    }
-    
-    /**
      * create action bar menu
      */
     @Override
@@ -360,6 +347,13 @@ public class DocumentViewerActivity
         inflater.inflate(R.menu.document_view_menu, menu);
         //hide actions based on cordova options
         MenuItem tmp;
+        //TODO remove once thumbnails are implemented
+		if (!getCore().hasOutline()) { //XXX potential nullpointer
+			tmp = menu.findItem(R.id.action_navigation_view);
+			if (tmp != null) {
+				tmp.setEnabled(false);
+			}
+		}
         if (!openWithEnabled) {
         	tmp = menu.findItem(R.id.action_open_with);
         	if (tmp != null) {
@@ -398,6 +392,33 @@ public class DocumentViewerActivity
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		return true;
 		//XXX no call to super, because super class uses fields which were not initialized here
+	}
+	
+    /**
+     * handle action bar menu events
+     */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle item selection
+	    switch (item.getItemId()) {
+	    	//up navigation
+	    	case android.R.id.home:
+	    		finish();
+	    		return true;
+	    	case R.id.action_navigation_view:
+				OutlineItem outline[] = getCore().getOutline(); //XXX potential nullpointer
+				if (outline != null) {
+					OutlineActivityData.get().items = outline;
+					Intent intent = new Intent(DocumentViewerActivity.this, NavigationViewActivity.class);
+					//add relevant cordova options
+					intent.putExtra("closeLabel", navigationViewCloseLabel);
+					intent.putExtra("bookmarksEnabled", bookmarksEnabled);
+					startActivityForResult(intent, getOUTLINEREQUEST());
+				}
+	    		return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
     
     /**
@@ -464,4 +485,7 @@ public class DocumentViewerActivity
     	return (String) getPrivateFieldOfSuper("mFileName");
     }
 
+    public int getOUTLINEREQUEST() {
+    	return (Integer) getPrivateFieldOfSuper("OUTLINE_REQUEST");
+    }
 }

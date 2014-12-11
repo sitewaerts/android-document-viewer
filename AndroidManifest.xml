@@ -21,5 +21,8 @@
                 <category android:name="android.intent.category.EMBED"/>
             </intent-filter>
         </activity>
+        <activity android:name="NavigationViewActivity"
+            	  android:theme="@android:style/Theme.Holo.Light">
+        </activity>
 	</application>
 </manifest>
