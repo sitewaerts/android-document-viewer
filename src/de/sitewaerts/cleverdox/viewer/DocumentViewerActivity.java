@@ -1,5 +1,6 @@
 package de.sitewaerts.cleverdox.viewer;
 
+import java.io.File;
 import java.lang.reflect.Field;
 
 //import com.artifex.mupdfdemo.Hit;
@@ -25,6 +26,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -403,6 +405,14 @@ public class DocumentViewerActivity
      */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent myIntent = getIntent();
+		Uri docUri = myIntent != null ? myIntent.getData() : null;
+		if (docUri != null) {
+			if (docUri.getScheme() == null) {
+				docUri = Uri.parse("file://"+docUri.toString());
+			}
+		}
+		
 	    // Handle item selection
 	    switch (item.getItemId()) {
 	    	//up navigation
@@ -423,31 +433,46 @@ public class DocumentViewerActivity
 	    		}
 	    		return true;
 	    	case R.id.action_open_with:
-	    		return false;
+	    		Intent openWithIntent = new Intent(Intent.ACTION_VIEW);
+	    		openWithIntent.setDataAndType(docUri,"application/pdf"); //XXX will the app eventually support other document types?
+	            openWithIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY); //XXX this is from the example, do we want this behaviour?
+	    		startActivity(Intent.createChooser(openWithIntent, getString(R.string.open_with_chooser_title)));
+	    		return true;
 	    	case R.id.action_print:
-	    		if (!getCore().fileFormat().startsWith("PDF")) {
-	    			showInfo(getString(R.string.format_currently_not_supported));
-	    			return true;
+	    		if (getCore() != null) {
+	    			if (!getCore().fileFormat().startsWith("PDF")) {
+	    				showInfo(getString(R.string.format_currently_not_supported));
+	    				return true;
+	    			}
 	    		}
-
-	    		Intent myIntent = getIntent();
-	    		Uri docUri = myIntent != null ? myIntent.getData() : null;
-
-	    		if (docUri == null) {
-	    			showInfo(getString(R.string.print_failed));
-	    		}
-
-	    		if (docUri.getScheme() == null)
-	    			docUri = Uri.parse("file://"+docUri.toString());
-
+	    		
 	    		Intent printIntent = new Intent(this, PrintActivity.class);
-	    		printIntent.setDataAndType(docUri, "aplication/pdf");
+	    		printIntent.setDataAndType(docUri, "application/pdf");
 	    		printIntent.putExtra("title", getMFileName());
 	    		printIntent.putExtra("closeLabel", navigationViewCloseLabel);
 	    		startActivityForResult(printIntent, getPRINTREQUEST());
 	    		return true;
 	    	case R.id.action_email:
-	    		return false;
+	    		
+	    		Intent emailIntent = new Intent(Intent.ACTION_SEND);
+	    		//XXX tried various methods to filter only email apps
+	    		//filter email apps via mime type, still shows some non email apps + we need mime type for attachment
+//	    		emailIntent.setType("message/rfc822");
+	    		//filter email apps via mailto uri, only works with ACTION_VIEW (we need ACTION_SEND)
+//	    		Uri data = Uri.parse("mailto:?");
+//	    		emailIntent.setData(data);
+	    		//filter email apps via category, only works with ACTION_MAIN (we need ACTION_SEND) and launches gmail without showing chooser first
+//	    		emailIntent.addCategory(Intent.CATEGORY_APP_EMAIL);
+	    		
+	    		//add document as attachment
+	    		emailIntent.setType("application/pdf");
+	    		emailIntent.putExtra(Intent.EXTRA_STREAM, docUri);
+	    		//add some text to the email
+	    		emailIntent.putExtra(Intent.EXTRA_SUBJECT, title);
+	    		emailIntent.putExtra(Intent.EXTRA_TEXT, String.format(getString(R.string.email_text), getString(R.string.app_name)));
+	    		//choose email app
+	    		startActivity(Intent.createChooser(emailIntent, getString(R.string.email_chooser_title)));
+	    		return true;
 	    	case R.id.action_bookmark:
 	    		return false;
 	        default:

@@ -9,4 +9,9 @@
     <string name="action_email">Email</string>
     <string name="action_bookmark">Bookmark</string>
     <string name="action_search">Search</string>
+    
+    <string name="email_chooser_title">Send email&#8230;</string>
+    <string name="email_text">shared via %1$s</string>
+    
+    <string name="open_with_chooser_title">Open document with&#8230;</string>
 </resources>

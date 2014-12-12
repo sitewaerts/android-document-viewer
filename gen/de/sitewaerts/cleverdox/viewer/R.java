@@ -158,6 +158,8 @@ public final class R {
         public static final int document_has_changes_save_them_=0x7f060026;
         public static final int draw_annotation=0x7f060024;
         public static final int edit_annotations=0x7f060016;
+        public static final int email_chooser_title=0x7f06003c;
+        public static final int email_text=0x7f06003d;
         public static final int enter_password=0x7f06000a;
         public static final int entering_reflow_mode=0x7f06001e;
         public static final int fill_out_text_field=0x7f06002b;
@@ -174,6 +176,7 @@ public final class R {
         public static final int not_supported=0x7f06002e;
         public static final int nothing_to_save=0x7f060025;
         public static final int okay=0x7f06002c;
+        public static final int open_with_chooser_title=0x7f06003e;
         public static final int outline_title=0x7f060009;
         public static final int parent_directory=0x7f06001b;
         public static final int picker_title_App_Ver_Dir=0x7f060008;
