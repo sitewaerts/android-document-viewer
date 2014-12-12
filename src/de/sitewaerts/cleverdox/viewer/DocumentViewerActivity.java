@@ -61,7 +61,7 @@ public class DocumentViewerActivity
 	private boolean searchEnabled;
 	private String title;
 	
-	
+	private int visiblePages = 1;
     /**
      * Called when the activity is first created.
      */
@@ -91,8 +91,10 @@ public class DocumentViewerActivity
     @Override
     public void createUI(Bundle savedInstanceState) {
 //    	super.createUI(savedInstanceState);
-    	//TODO this is the method of the super class; reimplement and customize
-		if (getCore() == null) { //XXX
+/*
+ * XXX this is the method of the super class MuPDFActivity; reimplemented and customized
+ */
+    	if (getCore() == null) { //XXX
 			return;			
 		}
 
@@ -101,6 +103,7 @@ public class DocumentViewerActivity
 		MuPDFReaderView mDocView = new MuPDFReaderView(this) { //XXX
 			@Override
 			protected void onMoveToChild(int i) {
+// TODO update pagenumberview and slider ui				
 //				if (core == null)
 //					return;
 //				mPageNumberView.setText(String.format("%d / %d", i + 1,
@@ -118,7 +121,8 @@ public class DocumentViewerActivity
 //					if (mTopBarMode == TopBarMode.Main)
 //						hideButtons();
 //				}
-				ActionBar ab = getActionBar(); //XXX
+				ActionBar ab = getActionBar();
+				// TODO show/hide pagenumberview and slider
 				if (!ab.isShowing()) {
 					ab.show();
 				} else {
@@ -129,10 +133,11 @@ public class DocumentViewerActivity
 			@Override
 			protected void onDocMotion() {
 //				hideButtons();
-				ActionBar ab = getActionBar(); //XXX
+				ActionBar ab = getActionBar();
 				ab.hide();
 			}
 
+//XXX MuPDF document editing, we don't need that
 //			@Override
 //			protected void onHit(Hit item) {
 //				switch (mTopBarMode) {
@@ -174,11 +179,12 @@ public class DocumentViewerActivity
 		};
 		setMSearchTask(mSearchTask); //XXX
 
+// XXX replaced by action bar
 //		// Make the buttons overlay, and store all its
 //		// controls in variables
 //		makeButtonsView();
 
-		//TODO rebuild page slider without the MuPDF layout
+// TODO rebuild page slider without the MuPDF layout
 //		// Set up the page slider
 //		int smax = Math.max(core.countPages()-1,1);
 //		mPageSliderRes = ((10 + smax - 1)/smax) * 2;
@@ -200,7 +206,7 @@ public class DocumentViewerActivity
 //			}
 //		});
 
-		//TODO reimplement search interaction
+// TODO reimplement search interaction
 //		// Activate the search-preparing button
 //		mSearchButton.setOnClickListener(new View.OnClickListener() {
 //			public void onClick(View v) {
@@ -208,6 +214,7 @@ public class DocumentViewerActivity
 //			}
 //		});
 
+// XXX MuPDF reflow mode, we don't need that
 //		// Activate the reflow button
 //		mReflowButton.setOnClickListener(new View.OnClickListener() {
 //			public void onClick(View v) {
@@ -215,6 +222,7 @@ public class DocumentViewerActivity
 //			}
 //		});
 
+// XXX MuPDF document editing, we don't need that
 //		if (core.fileFormat().startsWith("PDF"))
 //		{
 //			mAnnotButton.setOnClickListener(new View.OnClickListener() {
@@ -229,6 +237,7 @@ public class DocumentViewerActivity
 //			mAnnotButton.setVisibility(View.GONE);
 //		}
 
+// TODO reimplement search
 //		// Search invoking buttons are disabled while there is no text specified
 //		mSearchBack.setEnabled(false);
 //		mSearchFwd.setEnabled(false);
@@ -290,7 +299,7 @@ public class DocumentViewerActivity
 //			}
 //		});
 
-		//TODO move feature to actionbar menu
+// XXX outline feature is now in action bar menu
 //		if (core.hasOutline()) {
 //			mOutlineButton.setOnClickListener(new View.OnClickListener() {
 //				public void onClick(View v) {
@@ -310,24 +319,30 @@ public class DocumentViewerActivity
 		SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
 		mDocView.setDisplayedViewIndex(prefs.getInt("page"+getMFileName(), 0)); //XXX
 
+// XXX currently show/hideButton methods are not implemented separately but in onTapMainDocArea
 //		if (savedInstanceState == null || !savedInstanceState.getBoolean("ButtonsHidden", false))
 //			showButtons();
 //
+// TODO reimplement search
 //		if(savedInstanceState != null && savedInstanceState.getBoolean("SearchMode", false))
 //			searchModeOn();
 //
+// XXX reflow mode is deactivated
 //		if(savedInstanceState != null && savedInstanceState.getBoolean("ReflowMode", false))
 //			reflowModeSet(true);
 
 		// Stick the document view and the buttons overlay into a parent view
 		RelativeLayout layout = new RelativeLayout(this);
 		layout.addView(mDocView);
+// XXX buttons view is now action bar
 //		layout.addView(mButtonsView);
 		setContentView(layout);
     	
 		//add document view
-    	setMDocView(mDocView);
-    	
+    	setMDocView(mDocView); 	
+/*
+ * end of MuPDF code
+ */
     	//create action bar
     	ActionBar ab = getActionBar();
     	//enable up navigation
@@ -351,12 +366,13 @@ public class DocumentViewerActivity
         inflater.inflate(R.menu.document_view_menu, menu);
         //hide actions based on cordova options
         MenuItem tmp;
-        //TODO remove once thumbnails are implemented
         if (getCore() != null) {
-        	if (!getCore().hasOutline()) {
+        	if (!getCore().hasOutline() || //TODO move to NavigationViewActivity once thumbnails are implemented
+        			(getCore().countPages() <= visiblePages)) { 
         		tmp = menu.findItem(R.id.action_navigation_view);
         		if (tmp != null) {
-        			tmp.setEnabled(false);
+//        			tmp.setEnabled(false);
+        			tmp.setVisible(false);
         		}
         	}
 		}
@@ -378,7 +394,7 @@ public class DocumentViewerActivity
         		tmp.setVisible(false);
         	}
         }
-        if (!bookmarksEnabled) {
+        if (/*!bookmarksEnabled*/ true) { //TODO activate when bookmarks are implemented
         	tmp = menu.findItem(R.id.action_bookmark);
         	if (tmp != null) {
         		tmp.setVisible(false);
@@ -463,6 +479,7 @@ public class DocumentViewerActivity
 //	    		emailIntent.setData(data);
 	    		//filter email apps via category, only works with ACTION_MAIN (we need ACTION_SEND) and launches gmail without showing chooser first
 //	    		emailIntent.addCategory(Intent.CATEGORY_APP_EMAIL);
+	    		//TODO research how other people do this (e.g. phonegap share plugin)
 	    		
 	    		//add document as attachment
 	    		emailIntent.setType("application/pdf");
@@ -474,6 +491,7 @@ public class DocumentViewerActivity
 	    		startActivity(Intent.createChooser(emailIntent, getString(R.string.email_chooser_title)));
 	    		return true;
 	    	case R.id.action_bookmark:
+	    		//TODO
 	    		return false;
 	        default:
 	            return super.onOptionsItemSelected(item);
