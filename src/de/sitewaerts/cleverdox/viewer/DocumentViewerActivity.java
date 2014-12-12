@@ -27,6 +27,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.widget.SearchView.OnQueryTextListener;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -35,8 +36,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +55,9 @@ import android.widget.Toast;
 public class DocumentViewerActivity
         extends MuPDFActivity
 {
+	private final int SEARCH_FORWARD = 1;
+	private final int SEARCH_BACKWARD = -1;
+	
 	/*
 	 * options from cordova
 	 */
@@ -62,6 +71,10 @@ public class DocumentViewerActivity
 	private String title;
 	
 	private int visiblePages = 1;
+	/**
+	 * remember last search term
+	 */
+	private String cachedSearchTerm = "";
     /**
      * Called when the activity is first created.
      */
@@ -405,6 +418,48 @@ public class DocumentViewerActivity
         	if (tmp != null) {
         		tmp.setVisible(false);
         	}
+        } else {
+        	tmp = menu.findItem(R.id.action_search);
+        	SearchView searchView = (SearchView) tmp.getActionView();
+        	searchView.setQueryHint(getString(R.string.search_placeholder));
+        	searchView.setOnQueryTextListener(new OnQueryTextListener() {
+
+				@Override
+				public boolean onQueryTextSubmit(String searchTerm) {
+					cachedSearchTerm = searchTerm;
+					search(searchTerm, SEARCH_FORWARD);
+					return true;
+				}
+
+				@Override
+				public boolean onQueryTextChange(String newText) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+        	});
+        	LinearLayout ll = (LinearLayout) searchView.findViewById(getResources().getIdentifier("android:id/search_plate", null, null));
+        	ImageButton prev = new ImageButton(this);
+        	prev.setBackground(null);
+        	prev.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_previous_item));
+        	prev.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					search(cachedSearchTerm, SEARCH_BACKWARD);
+				}
+			});
+        	ll.addView(prev);
+        	ImageButton next = new ImageButton(this);
+        	next.setBackground(null);
+        	next.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_next_item));
+        	next.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					search(cachedSearchTerm, SEARCH_FORWARD);
+				}
+			});
+        	ll.addView(next);        
         }
         invalidateOptionsMenu();
         return super.onCreateOptionsMenu(menu);
@@ -538,6 +593,14 @@ public class DocumentViewerActivity
 		}
     }
     
+    private void search(String searchTerm, int direction) {
+		SearchTask st = getMSearchTask();
+		int displayPage = getMDocView().getDisplayedViewIndex();
+		SearchTaskResult r = SearchTaskResult.get();
+		int searchPage = r != null ? r.pageNumber : -1;
+		st.go(searchTerm, 1, displayPage, searchPage);
+    }
+    
     /**
      * XXX here be dragons
      * using reflection to be able to extend MuPDF code with its private fields everywhere...
@@ -573,6 +636,10 @@ public class DocumentViewerActivity
     	return (MuPDFCore) getPrivateFieldOfSuper("core");
     }
     
+    public SearchTask getMSearchTask() {
+    	return (SearchTask) getPrivateFieldOfSuper("mSearchTask");
+    }
+
     public boolean setMSearchTask(SearchTask st) {
     	return setPrivateFieldOfSuper("mSearchTask", st);
     }
