@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+	<LinearLayout
+        android:id="@+id/lowerMenus"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/document_bottom_nav_height"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:background="@color/background_holo_light_action_bar">
+
+        <SeekBar
+            android:id="@+id/pageSlider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:layout_weight="1"
+            android:paddingBottom="0dp"
+            android:paddingLeft="26dp"
+            android:paddingRight="16dp"
+            android:paddingTop="0dp"/>
+
+        <TextView
+            android:id="@+id/pageNumber"
+            android:layout_width="72dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="100 / 100"
+            android:textAppearance="?android:attr/textAppearanceSmall"/>
+    </LinearLayout>
+    
+</RelativeLayout>

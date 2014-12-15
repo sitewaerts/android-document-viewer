@@ -1,6 +1,5 @@
 package de.sitewaerts.cleverdox.viewer;
 
-import java.io.File;
 import java.lang.reflect.Field;
 
 //import com.artifex.mupdfdemo.Hit;
@@ -8,8 +7,6 @@ import com.artifex.mupdfdemo.MuPDFActivity;
 import com.artifex.mupdfdemo.MuPDFCore;
 import com.artifex.mupdfdemo.MuPDFPageAdapter;
 import com.artifex.mupdfdemo.MuPDFReaderView;
-import com.artifex.mupdfdemo.MuPDFView;
-import com.artifex.mupdfdemo.OutlineActivity;
 import com.artifex.mupdfdemo.OutlineActivityData;
 import com.artifex.mupdfdemo.OutlineItem;
 //import com.artifex.mupdfdemo.R;
@@ -18,28 +15,21 @@ import com.artifex.mupdfdemo.SearchTaskResult;
 //import com.artifex.mupdfdemo.MuPDFActivity.TopBarMode;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.widget.SearchView.OnQueryTextListener;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
@@ -57,6 +47,8 @@ public class DocumentViewerActivity
 {
 	private final int SEARCH_FORWARD = 1;
 	private final int SEARCH_BACKWARD = -1;
+	
+	private View bottomNav;
 	
 	/*
 	 * options from cordova
@@ -116,13 +108,18 @@ public class DocumentViewerActivity
 		MuPDFReaderView mDocView = new MuPDFReaderView(this) { //XXX
 			@Override
 			protected void onMoveToChild(int i) {
-// TODO update pagenumberview and slider ui				
-//				if (core == null)
-//					return;
-//				mPageNumberView.setText(String.format("%d / %d", i + 1,
-//						core.countPages()));
-//				mPageSlider.setMax((core.countPages() - 1) * mPageSliderRes);
-//				mPageSlider.setProgress(i * mPageSliderRes);
+				if (getCore() == null)
+					return;
+//				TextView mpnv = getMPageNumberView();
+//				if (mpnv != null) {
+//					mpnv.setText(String.format("%d / %d", i + 1,	getCore().countPages()));
+//				}
+				updatePageNumView(i);
+				SeekBar mps = getMPageSlider();
+				if (mps != null) {
+					mps.setMax((getCore().countPages() - 1) * getMPageSliderRes());
+					mps.setProgress(i * getMPageSliderRes());				
+				}
 				super.onMoveToChild(i);
 			}
 
@@ -135,11 +132,10 @@ public class DocumentViewerActivity
 //						hideButtons();
 //				}
 				ActionBar ab = getActionBar();
-				// TODO show/hide pagenumberview and slider
 				if (!ab.isShowing()) {
-					ab.show();
+					showUI();
 				} else {
-					ab.hide();
+					hideUI();
 				}
 			}
 
@@ -147,7 +143,9 @@ public class DocumentViewerActivity
 			protected void onDocMotion() {
 //				hideButtons();
 				ActionBar ab = getActionBar();
-				ab.hide();
+				if (ab.isShowing()) {
+					hideUI();
+				}
 			}
 
 //XXX MuPDF document editing, we don't need that
@@ -197,27 +195,12 @@ public class DocumentViewerActivity
 //		// controls in variables
 //		makeButtonsView();
 
-// TODO rebuild page slider without the MuPDF layout
-//		// Set up the page slider
-//		int smax = Math.max(core.countPages()-1,1);
-//		mPageSliderRes = ((10 + smax - 1)/smax) * 2;
+		// Set up the page slider
+		int smax = Math.max(getCore().countPages()-1,1);
+		setMPageSliderRes(((10 + smax - 1)/smax) * 2);
 
 //		// Set the file-name text
 //		mFilenameView.setText(mFileName);
-
-//		// Activate the seekbar
-//		mPageSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//			public void onStopTrackingTouch(SeekBar seekBar) {
-//				mDocView.setDisplayedViewIndex((seekBar.getProgress()+mPageSliderRes/2)/mPageSliderRes);
-//			}
-//
-//			public void onStartTrackingTouch(SeekBar seekBar) {}
-//
-//			public void onProgressChanged(SeekBar seekBar, int progress,
-//					boolean fromUser) {
-//				updatePageNumView((progress+mPageSliderRes/2)/mPageSliderRes);
-//			}
-//		});
 
 // TODO reimplement search interaction
 //		// Activate the search-preparing button
@@ -349,6 +332,31 @@ public class DocumentViewerActivity
 		layout.addView(mDocView);
 // XXX buttons view is now action bar
 //		layout.addView(mButtonsView);
+    	//create page slider
+    	bottomNav = getLayoutInflater().inflate(R.layout.document_bottom_nav,null);
+		setMPageSlider((SeekBar)bottomNav.findViewById(R.id.pageSlider));
+		setMPageNumberView((TextView)bottomNav.findViewById(R.id.pageNumber));
+//		// Activate the seekbar
+		getMPageSlider().setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				getMDocView().setDisplayedViewIndex((seekBar.getProgress()+getMPageSliderRes()/2)/getMPageSliderRes());
+			}
+
+			public void onStartTrackingTouch(SeekBar seekBar) {}
+
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				updatePageNumView((progress+getMPageSliderRes()/2)/getMPageSliderRes());
+			}
+		});
+		//set initial page slider/pagenum
+		int index = mDocView.getDisplayedViewIndex();
+		updatePageNumView(index);
+		getMPageSlider().setMax((getCore().countPages() - 1) * getMPageSliderRes());
+		getMPageSlider().setProgress(index * getMPageSliderRes());				
+
+		
+    	layout.addView(bottomNav);
 		setContentView(layout);
     	
 		//add document view
@@ -368,6 +376,48 @@ public class DocumentViewerActivity
     	}
     	//TODO make up button wider, disable title clickable
     }
+    
+	private void showUI() {
+		ActionBar ab = getActionBar();
+		ab.show();
+		Animation anim = new TranslateAnimation(0, 0, bottomNav.getHeight(), 0);
+		anim.setDuration(400);
+		anim.setAnimationListener(new Animation.AnimationListener() {
+			public void onAnimationStart(Animation animation) {
+				bottomNav.setVisibility(View.VISIBLE);
+			}
+			public void onAnimationRepeat(Animation animation) {}
+			public void onAnimationEnd(Animation animation) {
+			}
+		});
+		bottomNav.startAnimation(anim);
+	}
+	
+	private void hideUI() {
+		ActionBar ab = getActionBar();
+		ab.hide();
+		Animation anim = new TranslateAnimation(0, 0, 0, bottomNav.getHeight());
+		anim.setDuration(400);
+		anim.setAnimationListener(new Animation.AnimationListener() {
+			public void onAnimationStart(Animation animation) {
+				bottomNav.setVisibility(View.INVISIBLE);
+			}
+			public void onAnimationRepeat(Animation animation) {}
+			public void onAnimationEnd(Animation animation) {
+			}
+		});
+		bottomNav.startAnimation(anim);
+	}
+	
+	private void updatePageNumView(int index) {
+		if (getCore() == null) {
+			return;
+		}
+		TextView mpnv = getMPageNumberView();
+		if (mpnv != null) {
+			mpnv.setText(String.format("%d / %d", index+1, getCore().countPages()));
+		}
+	}
     
     /**
      * create action bar menu
@@ -433,7 +483,6 @@ public class DocumentViewerActivity
 
 				@Override
 				public boolean onQueryTextChange(String newText) {
-					// TODO Auto-generated method stub
 					return false;
 				}
         	});
@@ -630,6 +679,30 @@ public class DocumentViewerActivity
     
     public boolean setMDocView(MuPDFReaderView mprv) {
     	return setPrivateFieldOfSuper("mDocView", mprv);
+    }
+
+    public SeekBar getMPageSlider() {
+    	return (SeekBar) getPrivateFieldOfSuper("mPageSlider");
+    }
+
+    public boolean setMPageSlider(SeekBar mps) {
+    	return setPrivateFieldOfSuper("mPageSlider", mps);
+    }
+
+    public int getMPageSliderRes() {
+    	return (Integer) getPrivateFieldOfSuper("mPageSliderRes");
+    }
+
+    public boolean setMPageSliderRes(int mpsr) {
+    	return setPrivateFieldOfSuper("mPageSliderRes", mpsr);
+    }
+    
+    public TextView getMPageNumberView() {
+    	return (TextView) getPrivateFieldOfSuper("mPageNumberView");
+    }
+    
+    public boolean setMPageNumberView(TextView mpnv) {
+    	return setPrivateFieldOfSuper("mPageNumberView", mpnv);
     }
     
     public MuPDFCore getCore() {
