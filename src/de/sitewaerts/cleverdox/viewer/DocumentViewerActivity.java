@@ -202,7 +202,7 @@ public class DocumentViewerActivity
 //		// Set the file-name text
 //		mFilenameView.setText(mFileName);
 
-// TODO reimplement search interaction
+// XXX Search is now Actionbar widget
 //		// Activate the search-preparing button
 //		mSearchButton.setOnClickListener(new View.OnClickListener() {
 //			public void onClick(View v) {
@@ -315,7 +315,7 @@ public class DocumentViewerActivity
 		SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
 		mDocView.setDisplayedViewIndex(prefs.getInt("page"+getMFileName(), 0)); //XXX
 
-// XXX currently show/hideButton methods are not implemented separately but in onTapMainDocArea
+// TODO currently show/hideButton methods are not implemented separately but in onTapMainDocArea
 //		if (savedInstanceState == null || !savedInstanceState.getBoolean("ButtonsHidden", false))
 //			showButtons();
 //
@@ -470,6 +470,7 @@ public class DocumentViewerActivity
         	}
         } else {
         	tmp = menu.findItem(R.id.action_search);
+        	//TODO expand action view
         	SearchView searchView = (SearchView) tmp.getActionView();
         	searchView.setQueryHint(getString(R.string.search_placeholder));
         	searchView.setOnQueryTextListener(new OnQueryTextListener() {
@@ -647,7 +648,7 @@ public class DocumentViewerActivity
 		int displayPage = getMDocView().getDisplayedViewIndex();
 		SearchTaskResult r = SearchTaskResult.get();
 		int searchPage = r != null ? r.pageNumber : -1;
-		st.go(searchTerm, 1, displayPage, searchPage);
+		st.go(searchTerm, direction, displayPage, searchPage);
     }
     
     /**
