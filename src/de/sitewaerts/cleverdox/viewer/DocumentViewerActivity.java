@@ -103,7 +103,8 @@ public class DocumentViewerActivity
 
 		// Now create the UI.
 		// First create the document view
-		MuPDFReaderView mDocView = new MuPDFReaderView(this) { //XXX
+    	// extension which implements additional features like double tap to zoom
+		MuPDFReaderView mDocView = new SDVMuPDFReaderView(this) { 
 			@Override
 			protected void onMoveToChild(int i) {
 				if (getCore() == null)
@@ -144,7 +145,7 @@ public class DocumentViewerActivity
 				if (ab.isShowing()) {
 					hideUI();
 				}
-			}
+			}			
 
 //XXX MuPDF document editing, we don't need that
 //			@Override
@@ -641,10 +642,20 @@ public class DocumentViewerActivity
 			outState.putBoolean("ButtonsHidden", true);
 		}
 		
-		if (!searchView.isIconified()) {
-			outState.putBoolean("SearchMode", true);
+		if (searchView != null) {
+			if (!searchView.isIconified()) {
+				outState.putBoolean("SearchMode", true);
+			}
 		}
 	}
+	
+    private void search(String searchTerm, int direction) {
+		SearchTask st = getMSearchTask();
+		int displayPage = getMDocView().getDisplayedViewIndex();
+		SearchTaskResult r = SearchTaskResult.get();
+		int searchPage = r != null ? r.pageNumber : -1;
+		st.go(searchTerm, direction, displayPage, searchPage);
+    }
     
     /**
      * XXX here be dragons
@@ -666,15 +677,7 @@ public class DocumentViewerActivity
     		return null;
 		}
     }
-    
-    private void search(String searchTerm, int direction) {
-		SearchTask st = getMSearchTask();
-		int displayPage = getMDocView().getDisplayedViewIndex();
-		SearchTaskResult r = SearchTaskResult.get();
-		int searchPage = r != null ? r.pageNumber : -1;
-		st.go(searchTerm, direction, displayPage, searchPage);
-    }
-    
+        
     /**
      * XXX here be dragons
      * using reflection to be able to extend MuPDF code with its private fields everywhere...
