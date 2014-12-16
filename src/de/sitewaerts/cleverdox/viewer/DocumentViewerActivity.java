@@ -2,17 +2,14 @@ package de.sitewaerts.cleverdox.viewer;
 
 import java.lang.reflect.Field;
 
-//import com.artifex.mupdfdemo.Hit;
 import com.artifex.mupdfdemo.MuPDFActivity;
 import com.artifex.mupdfdemo.MuPDFCore;
 import com.artifex.mupdfdemo.MuPDFPageAdapter;
 import com.artifex.mupdfdemo.MuPDFReaderView;
 import com.artifex.mupdfdemo.OutlineActivityData;
 import com.artifex.mupdfdemo.OutlineItem;
-//import com.artifex.mupdfdemo.R;
 import com.artifex.mupdfdemo.SearchTask;
 import com.artifex.mupdfdemo.SearchTaskResult;
-//import com.artifex.mupdfdemo.MuPDFActivity.TopBarMode;
 
 import android.app.ActionBar;
 import android.content.Context;
@@ -49,6 +46,7 @@ public class DocumentViewerActivity
 	private final int SEARCH_BACKWARD = -1;
 	
 	private View bottomNav;
+	private SearchView searchView;
 	
 	/*
 	 * options from cordova
@@ -67,6 +65,7 @@ public class DocumentViewerActivity
 	 * remember last search term
 	 */
 	private String cachedSearchTerm = "";
+	
     /**
      * Called when the activity is first created.
      */
@@ -74,7 +73,6 @@ public class DocumentViewerActivity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-                
         // Get the intent that started this activity
         Intent intent = getIntent();
         // get all the options passed from cordova
@@ -315,11 +313,9 @@ public class DocumentViewerActivity
 		SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
 		mDocView.setDisplayedViewIndex(prefs.getInt("page"+getMFileName(), 0)); //XXX
 
-// TODO currently show/hideButton methods are not implemented separately but in onTapMainDocArea
 //		if (savedInstanceState == null || !savedInstanceState.getBoolean("ButtonsHidden", false))
 //			showButtons();
 //
-// TODO reimplement search
 //		if(savedInstanceState != null && savedInstanceState.getBoolean("SearchMode", false))
 //			searchModeOn();
 //
@@ -375,6 +371,21 @@ public class DocumentViewerActivity
     		ab.setTitle(title);
     	}
     	//TODO make up button wider, disable title clickable
+    	
+    	//restore previous state
+    	//TODO doesnt work yet
+//    	if (savedInstanceState != null) {
+//    		if (savedInstanceState.getBoolean("ButtonsHidden")) {
+//    			hideUI();
+//    		} else {
+//    			showUI();
+//    		}
+//    		if (savedInstanceState.getBoolean("SearchMode")) {
+//    			if (searchView != null) {
+//    				searchView.setIconified(false);
+//    			}
+//    		}
+//    	}
     }
     
 	private void showUI() {
@@ -470,8 +481,7 @@ public class DocumentViewerActivity
         	}
         } else {
         	tmp = menu.findItem(R.id.action_search);
-        	//TODO expand action view
-        	SearchView searchView = (SearchView) tmp.getActionView();
+        	searchView = (SearchView) tmp.getActionView();
         	searchView.setQueryHint(getString(R.string.search_placeholder));
         	searchView.setOnQueryTextListener(new OnQueryTextListener() {
 
@@ -620,6 +630,20 @@ public class DocumentViewerActivity
 
 		Toast toast = Toast.makeText(context, message, duration);
 		toast.show();
+	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		// reuse keys defined by MuPDF
+		if (!getActionBar().isShowing()) {
+			outState.putBoolean("ButtonsHidden", true);
+		}
+		
+		if (!searchView.isIconified()) {
+			outState.putBoolean("SearchMode", true);
+		}
 	}
     
     /**
