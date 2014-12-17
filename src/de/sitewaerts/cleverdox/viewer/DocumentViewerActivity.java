@@ -36,7 +36,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * currently this is just a dummy that is invoked from cordova/phonegap
+ * This activity is invoked from phonegap/cordova plugin to view PDF files
  * @author Philipp Bohnenstengel (raumobil GmbH)
  *
  */
