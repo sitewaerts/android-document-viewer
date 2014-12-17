@@ -24,12 +24,12 @@ public class PrintActivity extends PrintDialogActivity {
     	ActionBar ab = getActionBar();
     	//enable up navigation
     	ab.setDisplayHomeAsUpEnabled(true);
-    	//invisible icon
-    	ab.setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
-    	//set title to close lable string from cordova options
-    	if (closeLabel != null) {
-    		ab.setTitle(closeLabel);
-    	}
+//    	//invisible icon
+//    	ab.setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
+//    	//set title to close lable string from cordova options
+//    	if (closeLabel != null) {
+//    		ab.setTitle(closeLabel);
+//    	}
 	}
 	
     /**

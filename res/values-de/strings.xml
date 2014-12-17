@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">cleverdox Viewer</string>
+    <string name="splash_screen_html">splash-de.html</string>
+    
+    <string name="action_navigation_view">Navigation</string>
+    <string name="action_open_with">Öffnen mit</string>
+    <string name="action_print">Drucken</string>
+    <string name="action_email">E-Mail</string>
+    <string name="action_bookmark">Lesezeichen</string>
+    <string name="action_search">Suchen</string>
+    
+    <string name="email_chooser_title">E-Mail verschicken&#8230;</string>
+    <string name="email_text">geteilt über %1$s</string>
+    
+    <string name="open_with_chooser_title">Öffne Dokument mit&#8230;</string>
+    
+    <string name="search_placeholder">Suchbegriff eingeben&#8230;</string>
+</resources>

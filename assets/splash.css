@@ -1,0 +1,18 @@
+body {
+}
+
+p {
+	font-family: Roboto, sans-serif;
+	font-size: 1.2em;
+	padding: 5px;
+}
+
+#logo {
+	width: 100%;
+	text-align: center;
+}
+
+#logo img {
+	width: 80%;
+	height: auto;
+}

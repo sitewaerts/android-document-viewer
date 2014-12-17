@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">sitewaerts PDF Viewer</string>
-    <string name="splash_screen_message">This app is not intended to work on its own but to be invoked from cordova/phonegap.</string>
+    <string name="app_name">cleverdox Viewer</string>
+    <string name="splash_screen_html">splash.html</string>
     
     <string name="action_navigation_view">Navigation</string>
     <string name="action_open_with">Open with</string>
@@ -15,5 +15,5 @@
     
     <string name="open_with_chooser_title">Open document with&#8230;</string>
     
-    <string name="search_placeholder">enter search term...</string>
+    <string name="search_placeholder">enter search term&#8230;</string>
 </resources>

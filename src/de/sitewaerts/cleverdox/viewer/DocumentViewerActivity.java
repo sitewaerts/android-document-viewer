@@ -365,8 +365,8 @@ public class DocumentViewerActivity
     	ActionBar ab = getActionBar();
     	//enable up navigation
     	ab.setDisplayHomeAsUpEnabled(true);
-    	//invisible icon
-    	ab.setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
+//    	//invisible icon
+//    	ab.setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
     	//set title from cordova options
     	if (title != null) {
     		ab.setTitle(title);
