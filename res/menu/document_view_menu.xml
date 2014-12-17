@@ -4,33 +4,33 @@
     <item
         android:id="@+id/action_navigation_view"
         android:icon="@drawable/ic_action_view_as_list"
-        android:showAsAction="always"
+        android:showAsAction="ifRoom"
         android:title="@string/action_navigation_view"/>
     <item
         android:id="@+id/action_open_with"
         android:icon="@drawable/ic_action_share"
-        android:showAsAction="always"
+        android:showAsAction="ifRoom"
         android:title="@string/action_open_with"/>
     <item
         android:id="@+id/action_print"
         android:icon="@drawable/ic_action_help"
-        android:showAsAction="always"
+        android:showAsAction="ifRoom"
         android:title="@string/action_print"/>
     <item
         android:id="@+id/action_email"
         android:icon="@drawable/ic_action_email"
-        android:showAsAction="always"
+        android:showAsAction="ifRoom"
         android:title="@string/action_email"/>
     <item
         android:id="@+id/action_bookmark"
         android:icon="@drawable/ic_action_not_important"
-        android:showAsAction="always"
+        android:showAsAction="ifRoom"
         android:title="@string/action_bookmark"/>
     <item
         android:id="@+id/action_search"
         android:actionViewClass="android.widget.SearchView"
         android:icon="@drawable/ic_action_search"
-        android:showAsAction="always"
+        android:showAsAction="collapseActionView|always"
         android:title="@string/action_search"/>
 
 </menu>

@@ -24,6 +24,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageButton;
@@ -498,6 +499,14 @@ public class DocumentViewerActivity
 					return false;
 				}
         	});
+        	//full width
+        	searchView.setOnSearchClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					ViewGroup.LayoutParams layoutParams = v.getLayoutParams();
+		        	layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+				}
+			});
         	LinearLayout ll = (LinearLayout) searchView.findViewById(getResources().getIdentifier("android:id/search_plate", null, null));
         	ImageButton prev = new ImageButton(this);
         	prev.setBackground(null);
