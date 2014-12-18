@@ -1,5 +1,6 @@
 // path to mupdf
-// include ':..:..:..:android:MuPDF1.5 Android'
-include ':..:..:mupdf-for-cleverdox'
+include 'mupdf-for-cleverdox'
+project(':mupdf-for-cleverdox').projectDir = new File(settingsDir, '../../mupdf-for-cleverdox')
 // path to main app
-include ':..'
+include 'android-document-viewer'
+project(':android-document-viewer').projectDir = new File(settingsDir, '..')

@@ -4,8 +4,7 @@ apply plugin: 'android'
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
-    //compile project(':..:..:..:android:MuPDF1.5 Android')
-    compile project(':..:..:mupdf-for-cleverdox')
+    compile project(path: ':mupdf-for-cleverdox')
 }
 
 android {
