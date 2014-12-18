@@ -12,7 +12,13 @@ The app was developed with the following Android sdk version:
 compileSdkVersion 21
 buildToolsVersion "21.1.1"
 ```
-so either make sure that your Android sdk has this version available or modify build.gradle in the android-document-viewer project to use your most recent version.
+MuPDF has the following settings (probably should be changed to match the app...)
+```
+compileSdkVersion 16
+buildToolsVersion "21.1.1"
+```
+
+so either make sure that your Android sdk has these versions available or modify build.gradle in the android-document-viewer project to use your most recent version.
 
 ## execute gradle ##
 

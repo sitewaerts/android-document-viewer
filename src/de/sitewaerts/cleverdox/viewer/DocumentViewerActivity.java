@@ -483,6 +483,7 @@ public class DocumentViewerActivity
         	}
         } else {
         	tmp = menu.findItem(R.id.action_search);
+        	//configure actionbar search widget
         	searchView = (SearchView) tmp.getActionView();
         	searchView.setQueryHint(getString(R.string.search_placeholder));
         	searchView.setOnQueryTextListener(new OnQueryTextListener() {
