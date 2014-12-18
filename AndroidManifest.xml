@@ -2,14 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="de.sitewaerts.cleverdox.viewer"
           android:versionCode="1"
-          android:versionName="1.0">
+          android:versionName="1.0"
+          xmlns:tools="http://schemas.android.com/tools">
 	<!-- write includes read and MuPDF has the ability to modify documents -->
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<!-- required for cloud print -->
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-sdk android:minSdkVersion="16" android:targetSdkVersion="21"/>
     <application android:label="@string/app_name"
-                 android:icon="@drawable/ic_launcher">
+                 android:icon="@drawable/ic_launcher"
+                 tools:replace="icon, label">
         <activity android:name="SplashScreenActivity"
             	  android:theme="@android:style/Theme.Holo.Light">
             <intent-filter>

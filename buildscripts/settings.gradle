@@ -1,0 +1,5 @@
+// path to mupdf
+// include ':..:..:..:android:MuPDF1.5 Android'
+include ':..:..:mupdf-for-cleverdox'
+// path to main app
+include ':..'
