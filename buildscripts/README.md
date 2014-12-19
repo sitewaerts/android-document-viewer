@@ -5,7 +5,7 @@ The required MuPDF code is managed in a separate repository: https://github.com/
 
 Before you continue, make sure to download both the app repository and the MuPDF repository and put both into the same directory. The gradle files of this script expect MuPDF to be in a folder named "mupdf-for-cleverdox".
 
-Also, you need to have an environment variable ANDROID_HOME which points to the directory of the Android sdk (and, of course JAVA_HOME for the jdk)
+Also, you need to have an environment variable ANDROID_HOME which points to the directory of the Android sdk (and, of course JAVA_HOME for the jdk). Gradle will be automatically downloaded by the script if necessary.
 
 The app was developed with the following Android sdk version:
 ```
@@ -33,5 +33,7 @@ Linux/OS X:
 gradlew assembleDebug
 gradlew assembleRelease
 ```
+
+apk files are created in android-document-viewer/build/apk
 
 release builds need to be signed separately
