@@ -123,7 +123,6 @@ public class SDVMuPDFReaderView extends MuPDFReaderView implements
 		invalidate();
 	}
 
-	@Override
 	public boolean onSingleTapConfirmed(MotionEvent e) {
 		return true;
 	}
@@ -132,7 +131,6 @@ public class SDVMuPDFReaderView extends MuPDFReaderView implements
 	 * Double tap to zoom implementation from zReader
 	 * https://github.com/LiEo-HiDev/zReader-mupdf/blob/master/zPDFReader/src/com/artifex/mupdfdemo/ReaderView.java#L880
 	 */
-	@Override
 	public boolean onDoubleTap(MotionEvent e) {
 		if (getMScale() != 1.0f) {
 			setMScale(1.0f);
@@ -193,7 +191,6 @@ public class SDVMuPDFReaderView extends MuPDFReaderView implements
 		return true;
 	}
 
-	@Override
 	public boolean onDoubleTapEvent(MotionEvent e) {
 		return false;
 	}

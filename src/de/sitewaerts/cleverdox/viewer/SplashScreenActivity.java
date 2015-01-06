@@ -2,6 +2,7 @@ package de.sitewaerts.cleverdox.viewer;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.Window;
 import android.webkit.WebView;
 
 /**
@@ -19,6 +20,7 @@ public final class SplashScreenActivity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.splash_screen);
         WebView wv = (WebView) findViewById(R.id.splash_screen_webview);
         wv.loadUrl("file:///android_asset/"+getString(R.string.splash_screen_html));

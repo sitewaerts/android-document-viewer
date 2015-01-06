@@ -1,39 +1,20 @@
 package de.sitewaerts.cleverdox.viewer;
 
-import java.lang.reflect.Field;
-
-import com.artifex.mupdfdemo.MuPDFActivity;
-import com.artifex.mupdfdemo.MuPDFCore;
-import com.artifex.mupdfdemo.MuPDFPageAdapter;
-import com.artifex.mupdfdemo.MuPDFReaderView;
-import com.artifex.mupdfdemo.OutlineActivityData;
-import com.artifex.mupdfdemo.OutlineItem;
-import com.artifex.mupdfdemo.SearchTask;
-import com.artifex.mupdfdemo.SearchTaskResult;
-
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.widget.SearchView.OnQueryTextListener;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.SearchView;
-import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
+import android.widget.SearchView.OnQueryTextListener;
+import com.artifex.mupdfdemo.*;
+
+import java.lang.reflect.Field;
 
 /**
  * This activity is invoked from phonegap/cordova plugin to view PDF files
@@ -488,21 +469,18 @@ public class DocumentViewerActivity
         	searchView.setQueryHint(getString(R.string.search_placeholder));
         	searchView.setOnQueryTextListener(new OnQueryTextListener() {
 
-				@Override
 				public boolean onQueryTextSubmit(String searchTerm) {
 					cachedSearchTerm = searchTerm;
 					search(searchTerm, SEARCH_FORWARD);
 					return true;
 				}
 
-				@Override
 				public boolean onQueryTextChange(String newText) {
 					return false;
 				}
         	});
         	//full width
         	searchView.setOnSearchClickListener(new OnClickListener() {
-				@Override
 				public void onClick(View v) {
 					ViewGroup.LayoutParams layoutParams = v.getLayoutParams();
 		        	layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -510,22 +488,22 @@ public class DocumentViewerActivity
 			});
         	LinearLayout ll = (LinearLayout) searchView.findViewById(getResources().getIdentifier("android:id/search_plate", null, null));
         	ImageButton prev = new ImageButton(this);
-        	prev.setBackground(null);
+            // not supported in android API 15
+        	//prev.setBackground(null);
         	prev.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_previous_item));
         	prev.setOnClickListener(new OnClickListener() {
 				
-				@Override
 				public void onClick(View v) {
 					search(cachedSearchTerm, SEARCH_BACKWARD);
 				}
 			});
         	ll.addView(prev);
         	ImageButton next = new ImageButton(this);
-        	next.setBackground(null);
+        	// not supported in android API 15
+        	//next.setBackground(null);
         	next.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_next_item));
         	next.setOnClickListener(new OnClickListener() {
 				
-				@Override
 				public void onClick(View v) {
 					search(cachedSearchTerm, SEARCH_FORWARD);
 				}
