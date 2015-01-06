@@ -1,18 +1,43 @@
+html {
+    font-family: Helvetica, Arial Unicode MS, Arial, Roboto, sans-serif;
+    font-size: 1em;
+    letter-spacing: -0.03em;
+    color: white;
+
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+
+    background-image: url("crosser.jpg");
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 body {
+
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
 }
 
 p {
-	font-family: Roboto, sans-serif;
-	font-size: 1.2em;
-	padding: 5px;
+    padding: 0;
+    margin: 3%;
+    max-width: 50%;
 }
 
-#logo {
-	width: 100%;
-	text-align: center;
+a {
+    color: rgb(250, 187, 0);
+    text-decoration: none;
+    font-weight: bold;
 }
 
-#logo img {
-	width: 80%;
-	height: auto;
+a:active {
+    color: rgb(0, 152, 154);
 }
+
+
