@@ -1,0 +1,1 @@
+adb -d install ../build/apk/cleverdoxViewer-debug-v1.0-SNAPSHOT.apk

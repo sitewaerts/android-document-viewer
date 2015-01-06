@@ -25,7 +25,11 @@ so either make sure that your Android sdk has these versions available or modify
 Windows: 
 ```
 gradlew.bat assembleDebug
+uninstall_debug.bat
+install_debug.bat
+
 gradlew.bat assembleRelease
+
 ```
 
 Linux/OS X: 
@@ -37,3 +41,5 @@ gradlew assembleRelease
 apk files are created in android-document-viewer/build/apk
 
 release builds need to be signed separately
+
+see http://developer.android.com/tools/building/building-cmdline.html for more information.
