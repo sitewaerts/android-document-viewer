@@ -14,7 +14,7 @@ The App is available at Google play: https://play.google.com/store/apps/details?
 
 ## Building the app ##
 
-Use the embedded [Gradle Scripts] ./buildscripts/
+Use the embedded [Gradle Scripts](./buildscripts/)
 
 
 ## Credits ##
