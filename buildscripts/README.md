@@ -40,6 +40,27 @@ gradlew assembleRelease
 
 apk files are created in android-document-viewer/build/apk
 
-release builds need to be signed separately
+release builds need to be signed separately.
+
+if you want gradle to sign your release, place a file 'singing.gradle' in the root directory of this project.
+This file wont be added to GIT for privacy/security reasons.
+```
+android {
+  signingConfigs {
+    release {
+      storeFile new File('PATH_TO_KEYSTORE_FILE')
+      storePassword "STORE-PASSWORD"
+      keyAlias "KEY-ALIAS"
+      keyPassword "KEY-PASSWORD"
+    }
+  }
+
+  buildTypes {
+    release {
+      signingConfig signingConfigs.release
+    }
+  }
+}
+```
 
 see http://developer.android.com/tools/building/building-cmdline.html for more information.

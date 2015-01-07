@@ -7,6 +7,11 @@ dependencies {
     compile project(path: ':mupdf-for-cleverdox')
 }
 
+if(new File('../signing.gradle').exists()) {
+  apply from: 'signing.gradle';
+}
+
+
 android {
     compileSdkVersion 15
     buildToolsVersion "21.1.1"
