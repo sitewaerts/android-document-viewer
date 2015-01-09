@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="de.sitewaerts.cleverdox.viewer"
-          android:versionCode="1"
-          android:versionName="1.0"
+          android:versionCode="2"
+          android:versionName="1.1"
           xmlns:tools="http://schemas.android.com/tools">
 	<!-- write includes read and MuPDF has the ability to modify documents -->
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<!-- required for cloud print -->
 	<uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- 15: Android 4.0.3 -->
+    <!-- 19: Android 4.4.2 -->
 	<uses-sdk android:minSdkVersion="15" android:targetSdkVersion="19"/>
 
     <supports-screens android:smallScreens="false"
-                      android:normalScreens="false"
+                      android:normalScreens="true"
                       android:largeScreens="true"
                       android:xlargeScreens="true"
                       android:anyDensity="true"/>
