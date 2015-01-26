@@ -510,7 +510,6 @@ public class DocumentViewerActivity
 			});
         	ll.addView(next);        
         }
-        invalidateOptionsMenu();
         return super.onCreateOptionsMenu(menu);
     }
 
