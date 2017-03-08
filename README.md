@@ -1,7 +1,7 @@
 cleverdox Viewer for Android
 ============================
 
-Free Android Document Viewer App required by https://github.com/sitewaerts/cordova-plugin-document-viewer.
+Free Android Document Viewer App required by [cordova-plugin-document-viewer](https://github.com/sitewaerts/cordova-plugin-document-viewer).
 
 **This project is currently under development and not yet ready to use.**
 
@@ -23,5 +23,7 @@ This App is based on muPDF:
 
 http://www.mupdf.com/
 
+http://git.ghostscript.com/mupdf.git
+                                                  
 http://git.ghostscript.com/?p=mupdf.git;a=summary
 

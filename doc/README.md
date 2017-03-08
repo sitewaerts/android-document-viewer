@@ -1,34 +1,41 @@
 # Allgemein #
 
-Die Viewer App wird von sitewaerts kostenlos im Google Play Appstore bereitgestellt (Name z.B. „sitewaertsPDF“ oder "cleverDox Viewer").
+Die Viewer App wird von sitewaerts kostenlos im Google Play Appstore bereitgestellt
+ (Name z.B. „sitewaertsPDF“ oder "cleverDox Viewer").
 
 Umsetzung auf Basis MUPDF oder evtl. passender darauf basierender Software.
 
-Navigation und Design nach Möglichkeit an iOS Plugin (https://github.com/sitewaerts/cordova-plugin-document-viewer) anpassen
+Navigation und Design nach Möglichkeit an iOS Plugin 
+(https://github.com/sitewaerts/cordova-plugin-document-viewer) anpassen
 
 
 # API #
 
-Die App kann nur per Intent aus anderen Apps heraus gestartet werden. Über das Android-Manifest wird also nur die Activity Viewer veröffentlicht. Weitere evtl. intern benötigte Activities werden nur privat sichtbar gemacht.
+Die App kann nur per Intent aus anderen Apps heraus gestartet werden. 
+Über das Android-Manifest wird also nur die Activity Viewer veröffentlicht. 
+Weitere evtl. intern benötigte Activities werden nur privat sichtbar gemacht.
 
-App-Package: de.sitewaerts.android.pdfviewer
+App-Package: de.sitewaerts.cleverdox.viewer
 
-Haupt-Aktivität: de.sitewaerts.android.pdfviewer.Viewer
+Haupt-Aktivität: de.sitewaerts.cleverdox.viewer.DocumentViewerActivity
 
 Aufruf aus anderen Apps erfolgt wie folgt:
 * Intent: VIEW
-* Component: de.sitewaerts.android.pdfv.Viewer
+* Component: de.sitewaerts.cleverdox.viewer.DocumentViewerActivity
 * Data: uri to file
 * Type: application/pdf
 * Category: CATEGORY_EMBED
-* Der Aufruf erfolgt über die Methode startActivityForResult, sodass eine Benachrichtigung erfolgen kann, wenn der Viewer wieder geschlossen wird.
+* Der Aufruf erfolgt über die Methode startActivityForResult, sodass eine
+ Benachrichtigung erfolgen kann, wenn der Viewer wieder geschlossen wird.
 
-Versucht ein Anwender die App direkt zu starten wird lediglich eine Meldung/InfoScreen angezeigt. Schön wäre es, wenn dies einfach als HTML/CSS7IMG hinterlegt werden könnte.
+Versucht ein Anwender die App direkt zu starten wird lediglich eine
+ Meldung/InfoScreen angezeigt. Schön wäre es, wenn dies einfach als HTML/CSS7IMG
+  hinterlegt werden könnte.
 
 
-#Anpassungen#
+#Anpassungen #
 
-##Features entfernen##
+##Features entfernen ##
 * Button “Kette” oben rechts
 * Button “Anpassungsmodus” oben rechts
 * Button “mehr” oben rechts auflösen,
@@ -36,7 +43,7 @@ Versucht ein Anwender die App direkt zu starten wird lediglich eine Meldung/Info
     - die enthaltene Funktion “Text kopieren” entfernen
 
 
-##Features per Laufzeit-Konfiguration ein/ausschalten##
+##Features per Laufzeit-Konfiguration ein/ausschalten ##
 
 Vgl. dazu Javascript API des Plugins
 
@@ -44,11 +51,11 @@ Vgl. dazu Javascript API des Plugins
 * Suche
 
 Wie werden Laufzeitkonfigurationean per Intent übergeben?
-* Falls notwendig, könnte vom Java-Teil des Plugins einen Konfigurationsdatei angelegt werden.
-* oders die Parameter werden an die PDF-File-Url per ? angehangen
+* Falls notwendig, könnte vom Java-Teil des Plugins eine Konfigurationsdatei angelegt werden.
+* oder die Parameter werden an die PDF-File-Url per ? angehangen
 
 
-##Dokument-View##
+##Dokument-View ##
 
 Oben links Buttons
 * Navigations-View aufrufen
@@ -72,23 +79,27 @@ Slider-Navigation unten
     - Doppelansicht aktiv und Dokument nur zwei Seiten hat
 
 
-##Navigations-View##
+##Navigations-View ##
 
-Der Button (…) oben links startet aus dem Dokument-View den (Vollbild-) Navigations-View. Über den Android- „Zurück“ Button geht’s zurück zum Dokument-View.
+Der Button (…) oben links startet aus dem Dokument-View den (Vollbild-) 
+Navigations-View. Über den Android- „Zurück“ Button geht’s zurück zum Dokument-View.
 
-Im Navigationsview wird vorerst nur die Darstellung „Inhaltsbaum“ unterstützt. Die bereits in MuPDF enthaltene Ansicht sollte etwas optimiert werden, da sie sehr hässlich ist.
+Im Navigationsview wird vorerst nur die Darstellung „Inhaltsbaum“ unterstützt.
+ Die bereits in MuPDF enthaltene Ansicht sollte etwas optimiert werden, 
+ da sie sehr hässlich ist.
 
 
-###!! Ausbaustufe !!###
+###!! Ausbaustufe !! ###
 
-Im Navigationsview kann über zwei Icons rechts oben zwischen verschiedenen Darstellungen umgeschaltet werden:
+Im Navigationsview kann über zwei Icons rechts oben zwischen verschiedenen 
+Darstellungen umgeschaltet werden:
 * Thumbs
 * Inhaltsbaum (Dokument Outline)
 
 Der Navigationsview merkt sich die zuletzt aktivierte Ansicht.
 
 
-##I18n / Labels##
+##I18n / Labels ##
 Fenster-Titel wird zur Laufzeit übergeben.
 
 Keine Labels vorhanden.

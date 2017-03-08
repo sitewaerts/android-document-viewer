@@ -53,17 +53,14 @@ android {
 	    // name apk
 	    // https://gist.github.com/twocity/8121849
         println "*********" + variant.description + "**********";
-        def variants = variant.baseName.split("-");
-        def apkName = "cleverdoxViewer-";
-        apkName += variants[0];
-        apkName += "-v" + versionName;
+        def apkName = "cleverdoxViewer";
         if (!variant.zipAlign) {
             apkName += "-unaligned";
         }
         if (variant.buildType.name == "release") {
-            apkName += "-RELEASE.apk";
+            apkName += "-RELEASE-v" + versionName + ".apk";
         } else {
-            apkName += "-SNAPSHOT.apk";
+            apkName += "-DEBUG.apk";
         }
         println "*********" + "$project.buildDir/apk/" + apkName + "**********";
         variant.outputFile = file("$project.buildDir/apk/" + apkName)

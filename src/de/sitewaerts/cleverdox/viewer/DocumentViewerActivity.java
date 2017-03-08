@@ -17,7 +17,7 @@ import com.artifex.mupdfdemo.*;
 import java.lang.reflect.Field;
 
 /**
- * This activity is invoked from phonegap/cordova plugin to view PDF files
+ * This activity is invoked from cordova plugin to view PDF files
  * @author Philipp Bohnenstengel (raumobil GmbH)
  *
  */
@@ -40,6 +40,7 @@ public class DocumentViewerActivity
 	private boolean openWithEnabled;
 	private boolean bookmarksEnabled;
 	private boolean searchEnabled;
+	private boolean autoCloseOnPause;
 	private String title;
 	
 	private int visiblePages = 1;
@@ -68,12 +69,23 @@ public class DocumentViewerActivity
         	openWithEnabled = viewerOptions.getBoolean("openWith.enabled");
         	bookmarksEnabled = viewerOptions.getBoolean("bookmarks.enabled");
         	searchEnabled = viewerOptions.getBoolean("search.enabled");
+        	autoCloseOnPause = viewerOptions.getBoolean("autoClose.onPause");
         	title = viewerOptions.getString("title");
         }
         createUI(savedInstanceState);
     }
-    
-    @Override
+
+	@Override
+	protected void onPause()
+	{
+		super.onPause();
+		if(autoCloseOnPause)
+		{
+			finish();
+		}
+	}
+
+	@Override
     public void createUI(Bundle savedInstanceState) {
 //    	super.createUI(savedInstanceState);
 /*
