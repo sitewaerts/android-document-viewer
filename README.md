@@ -7,7 +7,7 @@ The App is available at [Google play](https://play.google.com/store/apps/details
 
 ## Requirements ##
 
-* Android 4.1+
+* Android 4.2+
 * MuPDF Android 1.5 (an upgrade to the most recent version is planned, but we want to use some features of https://github.com/sitewaerts/zReader-mupdf which is based on 1.5)
 
 ## Building the app ##

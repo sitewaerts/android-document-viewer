@@ -13,8 +13,8 @@ if(new File('../signing.gradle').exists()) {
 
 
 android {
-    compileSdkVersion 15
-    buildToolsVersion "21.1.1"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.3"
 
     sourceSets {
         main {
