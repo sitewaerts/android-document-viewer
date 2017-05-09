@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -15,6 +16,7 @@ import android.widget.*;
 import android.widget.SearchView.OnQueryTextListener;
 import com.artifex.mupdfdemo.*;
 
+import java.io.*;
 import java.lang.reflect.Field;
 
 /**
@@ -25,6 +27,10 @@ import java.lang.reflect.Field;
 public class DocumentViewerActivity
         extends MuPDFActivity
 {
+    private static final String TAG = "DocumentViewerActivity";
+
+
+
     private final int SEARCH_FORWARD = 1;
     private final int SEARCH_BACKWARD = -1;
 
@@ -103,6 +109,125 @@ public class DocumentViewerActivity
         nestedIntentStarted = true;
         super.startActivityForResult(intent, requestCode, options);
     }
+
+    public void onDestroy()
+    {
+        clearTempFiles();
+        super.onDestroy();
+    }
+
+    private void clearTempFiles()
+    {
+        File dir = getLocalDir();
+        if (!dir.exists())
+            return;
+
+        //Log.d(TAG, "clearing temp files below " + dir.getAbsolutePath());
+        deleteRecursive(dir, false);
+    }
+
+    private void deleteRecursive(File f, boolean self)
+    {
+        if (!f.exists())
+            return;
+
+        if (f.isDirectory())
+        {
+            File[] files = f.listFiles();
+            for (File file : files)
+                deleteRecursive(file, true);
+        }
+
+        if (self && !f.delete())
+            Log.e(TAG, "Failed to delete file " + f.getAbsoluteFile());
+
+    }
+
+
+    protected Uri resolveContentUri(Uri uri)
+   			throws IOException{
+        clearTempFiles();
+        File f = toLocalFile(uri);
+        if(f == null)
+            return null;
+        return Uri.fromFile(f);
+   	}
+
+   	private File getLocalDir(){
+   		return new File(getCacheDir(), "local");
+   	}
+
+   	private File toLocalFile(Uri uri)
+            throws IOException
+    {
+   	 File local = new File(getLocalDir(), new File(uri.getPath()).getName());
+   	 local.deleteOnExit();
+   	 try {
+   			InputStream is = getContentResolver().openInputStream(uri);
+   			copyFile(is, local);
+   		}
+   		catch(Exception e){
+   			 return null;
+   		}
+   		return local;
+    }
+
+
+   	private void copyFile(InputStream in, File target)
+            throws IOException
+    {
+        OutputStream out = null;
+        //create tmp folder if not present
+        if (!target.getParentFile().exists() && !target.getParentFile()
+                .mkdirs())
+            throw new IOException("Cannot create path " + target.getParentFile()
+                    .getAbsolutePath()
+            );
+        try
+        {
+            out = new FileOutputStream(target);
+            byte[] buffer = new byte[1024];
+            int read;
+            while ((read = in.read(buffer)) != -1)
+                out.write(buffer, 0, read);
+        }
+        catch (IOException e)
+        {
+            Log.e(TAG, "Failed to copy stream to "
+                    + target.getAbsolutePath(), e
+            );
+
+   		 throw new IOException(target.getAbsolutePath(), e);
+        }
+        finally
+        {
+            if (in != null)
+            {
+                try
+                {
+                    in.close();
+                }
+                catch (IOException e)
+                {
+                    // NOOP
+                }
+            }
+            if (out != null)
+            {
+                try
+                {
+                    out.close();
+                }
+                catch (IOException e)
+                {
+                    // NOOP
+                }
+            }
+        }
+
+    }
+
+
 
 
     @Override

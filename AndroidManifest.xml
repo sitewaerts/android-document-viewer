@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="de.sitewaerts.cleverdox.viewer"
-          android:versionCode="5"
-          android:versionName="1.1.3"
+          android:versionCode="6"
+          android:versionName="1.2.0"
           xmlns:tools="http://schemas.android.com/tools">
 	<!-- write includes read and MuPDF has the ability to modify documents -->
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -11,6 +11,8 @@
 
     <!-- 16: Android 4.2 JELLY BEAN-->
     <!-- 19: Android 4.4.2 -->
+    <!-- 25: Android 7 -->
+    <!-- cannot use 25 here, as this would break compatibilty with old versions of cordova-plugin-document-viewer -->
 	<uses-sdk android:minSdkVersion="16" android:targetSdkVersion="19"/>
 
     <supports-screens android:smallScreens="false"

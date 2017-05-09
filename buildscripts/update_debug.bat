@@ -1,2 +1,1 @@
-call uninstall_debug.bat
-call install_debug.bat
+gradlew.bat assembleDebug &&  call uninstall_debug.bat && call install_debug.bat
