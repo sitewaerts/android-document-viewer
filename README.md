@@ -15,6 +15,12 @@ The App is available at [Google play](https://play.google.com/store/apps/details
 Use the embedded [Gradle Scripts](./buildscripts/)
 
 
+Archived now, as no longer supported.
+
+![image](https://github.com/sitewaerts/android-document-viewer/assets/3276866/bb43fdb9-d44e-44e5-8e1d-40b7cb205182)
+
+
+
 ## Credits ##
 
 This App is based on muPDF:
